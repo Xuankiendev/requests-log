@@ -1,12 +1,14 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "main.py",
-      "use": "@vercel/python"
-    }
-  ],
+  "framework": "nextjs",
   "routes": [
-    { "src": "/(.*)", "dest": "main.py" }
+    {
+      "src": "/api/rps",
+      "dest": "/api/rps"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/"
+    }
   ]
 }
