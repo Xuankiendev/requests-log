@@ -1,14 +1,13 @@
 {
   "version": 2,
-  "framework": "nextjs",
   "routes": [
     {
       "src": "/api/rps",
-      "dest": "/api/rps"
+      "dest": "/api/rps.js"
     },
     {
       "src": "/(.*)",
-      "dest": "/"
+      "dest": "/index.html"
     }
   ]
 }
