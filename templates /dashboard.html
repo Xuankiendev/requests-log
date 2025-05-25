@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Request Rate Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        h2 { margin-bottom: 20px; }
+        #chart {
+            border-left: 2px solid #333;
+            border-bottom: 2px solid #333;
+            height: 300px;
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .bar {
+            position: absolute;
+            bottom: 0;
+            width: 2px;
+            background-color: #007bff;
+        }
+        #labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        #info {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<h2>Dashboard Requests Per Second (RPS) trong {{duration}} giây</h2>
+<div id="chart"></div>
+<div id="labels">
+    <div>0s</div>
+    <div>{{duration}}s</div>
+</div>
+<div id="info"></div>
+<script>
+    const data = {{data|tojson}};
+    const chart = document.getElementById("chart");
+    const maxRps = Math.max(...data.map(d => d[1]), 1);
+    chart.innerHTML = "";
+    data.forEach(([time, count]) => {
+        const bar = document.createElement("div");
+        bar.className = "bar";
+        bar.style.left = (time / {{duration}} * 100) + "%";
+        bar.style.height = (count / maxRps * 100) + "%";
+        bar.title = `${count} RPS tại ${time}s`;
+        chart.appendChild(bar);
+    });
+    const info = document.getElementById("info");
+    if(data.length) {
+        const last = data[data.length - 1];
+        info.textContent = `Lượt requests cuối: ${last[1]} tại giây ${last[0]}`;
+    } else {
+        info.textContent = "Chưa có dữ liệu requests";
+    }
+</script>
+</body>
+</html>
